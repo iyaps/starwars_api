@@ -1,0 +1,158 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+	
+	.response_msg{
+		margin-top:10px;
+		font-size:13px;
+		background:#E5D669;
+		color:#ffffff;
+		width:250px;
+		padding:3px;
+		display:none;
+	}
+	
+	</style>
+</head>
+<body>
+<h4><a href="IyappanKrishnasamy.html">Back to Index</a></h4>
+<!--  Form details for adding the character -->
+<div class="container">
+	<div class="row">
+	
+	<div class="col-md-8">
+	<h1>Create STAR WARS Characters</h1>
+		<form name="char-form" action="" method="post" id="char-form">
+			<div class="form-group">
+			<label for="Name">Name of the Character</label>
+			<input type="text" class="form-control" name="char_name" placeholder="Name of the Character" >
+			</div>
+			<div class="form-group">
+			<label for="height">Height</label>
+			<input type="text" class="form-control" name="height" placeholder="Height">
+			</div>
+			<div class="form-group">
+			<label for="mass">Mass</label>
+			<input type="text" class="form-control" name="mass" placeholder="Mass">
+			</div>
+			<div class="form-group">
+			<label for="hairColor">Hair Color</label>
+			<input type="text" class="form-control" name="hair_color" placeholder="Hair Color">
+			</div>
+			<div class="form-group">
+			<label for="skinColor">Skin Color</label>
+			<input type="text" class="form-control" name="skin_color" placeholder="Skin Color">
+			</div>
+			<div class="form-group">
+			<label for="eyeColor">Eye Color</label>
+			<input type="text" class="form-control" name="eye_color" placeholder="Eye Color">
+			</div>
+			<div class="form-group">
+			<label for="birthYear">Birth Year</label>
+			<input type="text" class="form-control" name="birth_year" placeholder="Birth Year">
+			</div>
+			<div class="form-group">
+			<label for="gender">Gender</label>
+			<input type="text" class="form-control" name="gender" placeholder="Gender">
+			</div>
+			<div class="form-group">
+			<label for="homeWorld">Home World</label>
+			<input type="text" class="form-control" name="homeworld" placeholder="HomeWorld Name">
+			</div>
+			<div class="form-group">
+			<label for="species">Species</label>
+			<input type="text" class="form-control" name="species" placeholder="Species">
+			</div>
+		<button type="submit" class="btn btn-primary" name="submit" value="Submit" id="submit_form">Submit</button>
+		</form>
+	
+	<div class="response_msg"></div>
+	</div>
+	</div>
+</div>
+<!-- including jquery and validating the individual fields through JS -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$("#char-form").on("submit",function(e){
+		e.preventDefault();
+		$("#loading-img").css("display","block");
+		var sendData = $(this).serialize();
+		var char_name = document.forms["char-form"]["char_name"].value;
+		var height = document.forms["char-form"]["height"].value;
+		var mass = document.forms["char-form"]["mass"].value;
+		var hair_color = document.forms["char-form"]["hair_color"].value;
+		var skin_color = document.forms["char-form"]["skin_color"].value;
+		var eye_color = document.forms["char-form"]["eye_color"].value;
+		var birth_year = document.forms["char-form"]["birth_year"].value;
+		var gender = document.forms["char-form"]["gender"].value;
+		var homeworld = document.forms["char-form"]["homeworld"].value;
+		var species = document.forms["char-form"]["species"].value;
+		if(char_name=='' || char_name.length<2){
+			$("#char-form [name='char_name']").css("border","1px solid red");
+			alert("Enter char name with atleast 2 chars");
+			return false;
+		}
+		if(height=='' || (Number.isInteger(height)==true)){
+			$("#char-form [name='height']").css("border","1px solid red");
+			alert("Height cannot be blank. please enter integer value.");
+			return false;
+		}
+		if(mass=='' || (Number.isInteger(mass)==true)){
+			$("#char-form [name='mass']").css("border","1px solid red");
+			alert("Mass cannot be blank. please enter integer value");
+			return false;
+		}
+		if(hair_color==''){
+			$("#char-form [name='hair_color']").css("border","1px solid red");
+			alert("Hair Color cannot be blank");
+			return false;
+		}
+		if(skin_color==''){
+			$("#char-form [name='skin_color']").css("border","1px solid red");
+			alert("Skin color cannot be blank");
+			return false;
+		}
+		if(eye_color==''){
+			$("#char-form [name='eye_color']").css("border","1px solid red");
+			alert("Eye color cannot be blank");
+			return false;
+		}
+		if(birth_year==''){
+			$("#char-form [name='birth_year']").css("border","1px solid red");
+			alert("Birth year cannot be blank");
+			return false;
+		}
+		if(gender==''){
+			$("#char-form [name='gender']").css("border","1px solid red");
+			alert("Gender cannot be blank");
+			return false;
+		}
+		if(homeworld==''){
+			$("#char-form [name='homeworld']").css("border","1px solid red");
+			alert("HomeWorld cannot be blank");
+			return false;
+		}
+		if(species==''){
+			$("#char-form [name='species']").css("border","1px solid red");
+			alert("Species cannot be blank");
+			return false;
+		}
+		
+		//alert(sendData);
+		$.ajax({
+			type: "POST",
+			url: "get_response.php",
+			data: sendData,
+			success: function(data){
+			$(".response_msg").text(data);
+			$(".response_msg").slideDown().fadeOut(30000);
+		}
+		});
+	}
+	);
+});
+</script>
+</body>
+</html>
